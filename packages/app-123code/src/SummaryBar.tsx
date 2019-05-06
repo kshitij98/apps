@@ -20,6 +20,7 @@ type Props = ApiProps & BareProps & I18nProps & {
   chain_bestNumberLag?: BN,
   chain_getRuntimeVersion?: RuntimeVersion,
   session_validators?: Array<AccountId>,
+  staking_minimumValidatorCount?: BN,
   staking_intentions?: Array<AccountId>,
   system_chain?: string,
   system_name?: string,
@@ -47,8 +48,10 @@ class SummaryBar extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, session_validators = [], system_chain, system_name, system_version } = this.props;
+    const { balances_totalIssuance, chain_bestNumber, chain_bestNumberLag, chain_getRuntimeVersion, session_validators = [], staking_minimumValidatorCount, system_chain, system_name, system_version } = this.props;
     const { nextUp } = this.state;
+
+    console.log(`staking_minimumValidatorCount: ${staking_minimumValidatorCount && staking_minimumValidatorCount.toNumber()}`);
 
     return (
       <summary>
@@ -72,6 +75,9 @@ class SummaryBar extends React.PureComponent<Props, State> {
               <IdentityIcon key={index} value={accountId} size={20} />
             ))
           }</Bubble>
+          <Bubble icon='chess king' label='minimum validator count'>
+            {staking_minimumValidatorCount && staking_minimumValidatorCount.toNumber()}
+          </Bubble>
           <Bubble icon='chess bishop' label='next up'>{
             nextUp.map((accountId, index) => (
               <IdentityIcon key={index} value={accountId} size={20} />
@@ -93,6 +99,7 @@ export default translate(
     'derive.chain.bestNumberLag',
     'query.balances.totalIssuance',
     'query.session.validators',
+    'query.staking.minimumValidatorCount',
     'rpc.chain.getRuntimeVersion',
     'rpc.system.chain',
     'rpc.system.name',
