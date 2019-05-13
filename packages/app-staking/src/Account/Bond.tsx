@@ -196,14 +196,6 @@ class Bond extends React.PureComponent<Props, State> {
     let maxBalance = new BN(1);
     let extrinsic;
 
-    console.log(Object.entries(balances_all)
-      .reduce((obj, [key, bn]) => {
-        return {
-          ...obj,
-          [key]: bn.toString()
-        };
-      }, {}));
-
     while (!prevMax.eq(maxBalance)) {
       prevMax = maxBalance;
 
@@ -215,8 +207,6 @@ class Bond extends React.PureComponent<Props, State> {
 
       const fees = transactionBaseFee
         .add(transactionByteFee.muln(txLength));
-
-      console.log(fees.toString());
 
       maxBalance = new BN(freeBalance).sub(fees);
     }
