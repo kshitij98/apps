@@ -80,21 +80,11 @@ class Signer extends React.PureComponent<Props, State> {
     };
   }
 
-  async componentDidUpdate (_: Props, prevState: State) {
+  async componentDidUpdate () {
     const { currentItem } = this.state;
 
-    if (currentItem) {
-      if (!prevState.currentItem) {
-        document.addEventListener('keydown', this.onKeyDown);
-      }
-
-      if (currentItem.status === 'queued' && !currentItem.extrinsic) {
-        return this.sendRpc(currentItem);
-      }
-    } else {
-      if (prevState.currentItem) {
-        document.removeEventListener('keydown', this.onKeyDown);
-      }
+    if (currentItem && currentItem.status === 'queued' && !currentItem.extrinsic) {
+      return this.sendRpc(currentItem);
     }
   }
 
@@ -181,6 +171,7 @@ class Signer extends React.PureComponent<Props, State> {
         autoFocus
         error={unlockError || undefined}
         onChange={this.onChangePassword}
+        onKeyDown={this.onKeyDown}
         password={password}
         value={currentItem.accountId}
         tabIndex={1}
@@ -223,8 +214,7 @@ class Signer extends React.PureComponent<Props, State> {
     });
   }
 
-  private onKeyDown = async (event: KeyboardEvent) => {
-    event.preventDefault();
+  private onKeyDown = async (event: React.KeyboardEvent<Element>) => {
     if (event.key === 'Enter') {
       await this.onSend();
     }

@@ -28,6 +28,7 @@ type Props = BareProps & I18nProps & {
   maxLength?: number,
   maxValue?: BN,
   onChange?: (value?: BN) => void,
+  onEnter?: () => void,
   placeholder?: string,
   value?: BN | string,
   withLabel?: boolean,
@@ -89,7 +90,7 @@ class InputNumber extends React.PureComponent<Props, State> {
   }
 
   render () {
-    const { bitLength = DEFAULT_BITLENGTH, className, help, isSi, isDisabled, isError = false, maxLength, maxValue, style, withMax, t } = this.props;
+    const { bitLength = DEFAULT_BITLENGTH, className, help, isSi, isDisabled, isError = false, maxLength, maxValue, onEnter, style, withMax, t } = this.props;
     const { isValid, value } = this.state;
     const maxValueLength = this.maxValue(bitLength).toString().length - 1;
 
@@ -103,6 +104,7 @@ class InputNumber extends React.PureComponent<Props, State> {
         isError={!isValid || isError}
         maxLength={maxLength || maxValueLength}
         onChange={this.onChange}
+        onEnter={onEnter}
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
         onPaste={this.onPaste}

@@ -18,6 +18,7 @@ type Props = BareProps & {
   label?: any,
   maxValue?: BN,
   onChange?: (value?: BN) => void,
+  onEnter?: () => void,
   placeholder?: string,
   value?: BN | string,
   withLabel?: boolean,
@@ -28,7 +29,7 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 export default class InputBalance extends React.PureComponent<Props> {
   render () {
-    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, maxValue, onChange, placeholder, style, value, withLabel, withMax } = this.props;
+    const { autoFocus, className, defaultValue, help, isDisabled, isError, label, maxValue, onChange, onEnter, placeholder, style, value, withLabel, withMax } = this.props;
 
     return (
       <InputNumber
@@ -43,6 +44,7 @@ export default class InputBalance extends React.PureComponent<Props> {
         label={label}
         maxValue={maxValue}
         onChange={onChange}
+        onEnter={onEnter}
         placeholder={placeholder}
         style={style}
         value={value}
