@@ -14,7 +14,7 @@ type Props = BareProps;
 
 class Balance extends React.PureComponent<Props> {
   render () {
-    const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = this.props;
+    const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = this.props;
     const defaultValue = new BN((value as BN || '0').toString()).toString(10);
 
     return (
@@ -29,6 +29,7 @@ class Balance extends React.PureComponent<Props> {
           isError={isError}
           label={label}
           onChange={this.onChange}
+          onEnter={onEnter}
           withLabel={withLabel}
         />
       </Bare>

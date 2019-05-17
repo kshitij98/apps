@@ -6,7 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/ui-app/types';
 
 import React from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/ui-app';
+import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/ui-app';
 import { ActionStatus } from '@polkadot/ui-app/Status/types';
 import keyring from '@polkadot/ui-keyring';
 
@@ -25,7 +25,7 @@ type State = {
   oldPass: string
 };
 
-class ChangePass extends React.PureComponent<Props, State> {
+class ChangePass extends TxComponent<Props, State> {
   state: State = {
     isNewValid: false,
     isOldValid: false,
@@ -64,6 +64,7 @@ class ChangePass extends React.PureComponent<Props, State> {
             isPrimary
             label={t('Change')}
             onClick={this.doChange}
+            ref={this.submit}
           />
         </Button.Group>
       </Modal.Actions>
@@ -100,6 +101,7 @@ class ChangePass extends React.PureComponent<Props, State> {
                 isError={!isNewValid}
                 label={t('your new password')}
                 onChange={this.onChangeNew}
+                onEnter={this.submit}
                 tabIndex={2}
                 value={newPass}
               />

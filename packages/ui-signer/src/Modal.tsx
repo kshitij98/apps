@@ -12,7 +12,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTx$MessageSetStatus, QueueTx$Result, QueueTx$Status } from '@polkadot/ui-app/Status/types';
 
 import React from 'react';
-import { Button, Modal } from '@polkadot/ui-app';
+import { Button, Modal, TxComponent } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import { withApi, withMulti, withObservable } from '@polkadot/ui-api';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
@@ -39,7 +39,7 @@ type State = {
   unlockError?: string | null
 };
 
-class Signer extends React.PureComponent<Props, State> {
+class Signer extends TxComponent<Props, State> {
   state: State = {
     isSendable: false,
     password: '',
@@ -136,6 +136,7 @@ class Signer extends React.PureComponent<Props, State> {
                 ? t('Submit (no signature)')
                 : t('Sign and Submit')
             }
+            ref={this.button}
           />
         </Button.Group>
       </Modal.Actions>
@@ -171,7 +172,7 @@ class Signer extends React.PureComponent<Props, State> {
         autoFocus
         error={unlockError || undefined}
         onChange={this.onChangePassword}
-        onKeyDown={this.onKeyDown}
+        onEnter={this.submit}
         password={password}
         value={currentItem.accountId}
         tabIndex={1}
@@ -212,12 +213,6 @@ class Signer extends React.PureComponent<Props, State> {
       password,
       unlockError: null
     });
-  }
-
-  private onKeyDown = async (event: React.KeyboardEvent<Element>) => {
-    if (event.key === 'Enter') {
-      await this.onSend();
-    }
   }
 
   private onCancel = (): void => {

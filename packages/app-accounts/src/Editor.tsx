@@ -9,7 +9,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { AddressSummary, Button, Dropdown, Input, InputAddress, InputTags } from '@polkadot/ui-app';
+import { AddressSummary, Button, Dropdown, Input, InputAddress, InputTags, TxComponent } from '@polkadot/ui-app';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -32,7 +32,7 @@ type State = {
   tags: Array<string>
 };
 
-class Editor extends React.PureComponent<Props, State> {
+class Editor extends TxComponent<Props, State> {
   state: State;
 
   constructor (props: Props) {
@@ -90,6 +90,7 @@ class Editor extends React.PureComponent<Props, State> {
           isPrimary
           onClick={this.onCommit}
           label={t('Save')}
+          ref={this.button}
         />
       </Button.Group>
     );
@@ -136,6 +137,7 @@ class Editor extends React.PureComponent<Props, State> {
               isEditable={!isTesting}
               label={t('name')}
               onChange={this.onChangeName}
+              onEnter={this.submit}
               value={editedName}
             />
           </div>
